@@ -1,0 +1,776 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>mx.ine</groupId>
+	<artifactId>ReclutaSEyCAE</artifactId>
+	<version>1.0</version>
+	<packaging>war</packaging>
+	
+	<name>ReclutaSEyCAE</name>
+	<description>Aplicación base para la configuración de proyectos</description>
+
+	<properties>
+        <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
+        <maven.test.skip>true</maven.test.skip>
+		<maven.compiler.release>11</maven.compiler.release>
+        
+        <javaee-web-api.version>8.0</javaee-web-api.version>
+        <jboss-eap.version>7.2.0.GA</jboss-eap.version>
+
+		<!-- Spring -->
+		<servicios-ine-version>3.0</servicios-ine-version>
+        <spring-framework.version>5.1.8.RELEASE</spring-framework.version>
+        <spring-retry.version>1.2.4.RELEASE</spring-retry.version>
+        <spring-ldap.version>2.3.2.RELEASE</spring-ldap.version>
+        <spring-security.version>5.1.5.RELEASE</spring-security.version>
+<!--         <spring-webflow.version>2.5.1.RELEASE</spring-webflow.version> -->
+<!--         <spring-batch.version>4.1.2.RELEASE</spring-batch.version> -->
+		<spring-data.version>Lovelace-SR9</spring-data.version>
+		<spring-integration.version>5.1.6.RELEASE</spring-integration.version>
+<!-- 		<spring-ws.version>3.0.7.RELEASE</spring-ws.version> -->
+
+		<!-- Hibernate -->
+		<hibernate-core.version>5.3.7.Final-redhat-00001</hibernate-core.version>		
+		<hibernate-validator.version>6.0.14.Final</hibernate-validator.version>
+		<jipijapa-hibernate5.version>5-3-7.2.0.GA-redhat-00005</jipijapa-hibernate5.version>
+		<hibernate-search.version>5.10.3.Final</hibernate-search.version>
+
+		<!-- Infinispan -->
+		<infinispan.version>9.3.3.Final-redhat-00001</infinispan.version>
+		<!-- Apache commons -->
+		<commons-codec.version>1.10</commons-codec.version>
+
+		<!-- Apache Http -->
+		<apache-httpcore.version>4.4.4.redhat-2</apache-httpcore.version>
+        <apache-httpclient.version>4.5.2.redhat-2</apache-httpclient.version>
+        
+        <commons-fileupload.version>1.3.3</commons-fileupload.version>
+
+<!-- 		<jackson.version>2.9.5.redhat-2</jackson.version> -->
+		<jackson.version>2.9.9</jackson.version>
+		<mapstruct.version>1.3.0.Final</mapstruct.version>
+		<lombok.version>1.18.8</lombok.version>
+		<aspectj.version>1.9.3</aspectj.version>		
+
+		<slf4j.version>1.7.22.redhat-2</slf4j.version>
+		
+<!-- 		<junit.version>4.12</junit.version> -->
+		<junit-jupiter.version>5.3.2</junit-jupiter.version>  		  	
+        <mockito.version>3.0.0</mockito.version>
+        
+        <plugin-compiler.version>3.8.0</plugin-compiler.version>
+        <plugin-war.version>3.2.2</plugin-war.version>
+        <plugin-eclipse.version>2.10</plugin-eclipse.version>
+        <plugin-site.version>3.7.1</plugin-site.version>
+        <plugin-surefire.version>2.22.1</plugin-surefire.version>
+        <plugin-report.version>3.0.0</plugin-report.version>
+		
+    </properties>
+    
+    <dependencyManagement>
+		<dependencies>
+		
+			<!-- Spring Framework Core -->
+			<dependency>
+	            <groupId>org.springframework</groupId>
+	            <artifactId>spring-framework-bom</artifactId>
+	            <version>${spring-framework.version}</version>
+	            <type>pom</type>
+	            <scope>import</scope>
+	        </dependency>		
+		
+			<!-- Spring Security -->
+			<dependency>
+	            <groupId>org.springframework.security</groupId>
+	            <artifactId>spring-security-bom</artifactId>
+	            <version>${spring-security.version}</version>
+	            <type>pom</type>
+	            <scope>import</scope>
+	        </dependency>
+		
+			<!-- Spring Data -->
+	        <dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-releasetrain</artifactId>
+				<version>${spring-data.version}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+		
+			<!-- Spring Integration -->
+			 <dependency>
+	            <groupId>org.springframework.integration</groupId>
+	            <artifactId>spring-integration-bom</artifactId>
+	            <version>${spring-integration.version}</version>
+	            <type>pom</type>
+	            <scope>import</scope>
+	        </dependency>
+		
+			<!-- JBoss EAP 7.2 -->
+			<!-- <dependency>
+				<groupId>org.jboss.bom.eap</groupId>
+				<artifactId>jboss-bom-parent</artifactId>
+				<version>${jboss-eap.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency> -->
+<!-- 			<dependency> -->
+<!-- 				<groupId>org.jboss.bom</groupId> -->
+<!-- 				<artifactId>eap-runtime-artifacts</artifactId> -->
+<!-- 				<version>${jboss-eap.version}</version> -->
+<!-- 				<type>pom</type> -->
+<!-- 				<scope>import</scope> -->
+<!-- 			</dependency> -->
+			
+<!--             <dependency> -->
+<!-- 			    <groupId>org.jboss.bom</groupId> -->
+<!-- 			    <artifactId>jboss-eap-javaee8</artifactId> -->
+<!-- 			    <version>${jboss-eap.version}</version> -->
+<!-- 			    <type>pom</type> -->
+<!-- 			    <scope>import</scope> -->
+<!-- 			</dependency>      -->
+			
+			<dependency>
+			    <groupId>org.jboss.bom</groupId>
+			    <artifactId>jboss-eap-javaee8-with-tools</artifactId>
+			    <version>${jboss-eap.version}</version>
+			    <type>pom</type>
+			    <scope>import</scope>
+			</dependency>
+			
+		</dependencies>
+	</dependencyManagement>
+    
+    <dependencies>
+    		<!-- INE -->
+		
+		<dependency>
+			<groupId>mx.ine</groupId>
+			<artifactId>servicios-ine</artifactId>
+			<version>${servicios-ine-version}</version>
+			<scope>provided</scope>
+		</dependency>
+    	<!-- Javax -->
+<!--         <dependency> -->
+<!--             <groupId>javax</groupId> -->
+<!--             <artifactId>javaee-web-api</artifactId> -->
+<!--             <version>${javaee-web-api.version}</version> -->
+<!--             <scope>provided</scope> -->
+<!--         </dependency> -->
+
+		<dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+<!-- 		<dependency> -->
+<!-- 			<groupId>javax.persistence</groupId> -->
+<!-- 			<artifactId>javax.persistence-api</artifactId> -->
+<!-- 			<scope>provided</scope>			 -->
+<!-- 		</dependency> -->
+
+<!-- 			<dependency> -->
+<!-- 	            <groupId>javax.json</groupId> -->
+<!-- 	            <artifactId>javax.json-api</artifactId> -->
+<!-- 	            <scope>provided</scope> -->
+<!-- 	        </dependency> -->
+
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+		<dependency>
+            <groupId>javax.jms</groupId>
+            <artifactId>javax.jms-api</artifactId>
+            <version>2.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+		<dependency>
+			<groupId>org.jboss.spec.javax.annotation</groupId>
+			<artifactId>jboss-annotations-api_1.3_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+            <groupId>org.jboss.spec.javax.el</groupId>
+            <artifactId>jboss-el-api_3.0_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.jboss.spec.javax.servlet</groupId> -->
+<!-- 			<artifactId>jboss-servlet-api_3.1_spec</artifactId> -->
+<!-- 			<version>1.0.2.Final-redhat-1</version> -->
+<!-- 			<scope>provided</scope> -->
+<!-- 		</dependency> -->
+		
+		<dependency>
+			<groupId>org.jboss.spec.javax.servlet</groupId>
+			<artifactId>jboss-servlet-api_4.0_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.spec.javax.servlet.jsp</groupId>
+			<artifactId>jboss-jsp-api_2.3_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+        <dependency>
+            <groupId>org.jboss.spec.javax.jms</groupId>
+            <artifactId>jboss-jms-api_2.0_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        
+        <!-- Necesario Java 11 -->
+        <!-- jaxb -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.xml.bind</groupId>
+            <artifactId>jboss-jaxb-api_2.3_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+		
+<!-- 		<dependency> -->
+<!-- 			<groupId>javax.xml.bind</groupId> -->
+<!-- 			<artifactId>jaxb-api</artifactId> -->
+<!-- 			<scope>provided</scope> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.sun.xml.bind</groupId> -->
+<!-- 			<artifactId>jaxb-core</artifactId> -->
+<!-- 			<scope>provided</scope> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.sun.xml.bind</groupId> -->
+<!-- 			<artifactId>jaxb-impl</artifactId> -->
+<!-- 			<scope>provided</scope> -->
+<!-- 		</dependency> -->
+    
+    	<!-- Spring Framework Core -->
+    	<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<scope>provided</scope>			
+		</dependency>
+    
+    	<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-aspects</artifactId>
+		    <scope>provided</scope>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context</artifactId>
+		    <scope>provided</scope>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context-support</artifactId>
+		    <scope>provided</scope>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-instrument</artifactId>
+		    <scope>provided</scope>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-jms</artifactId>
+		    <scope>provided</scope>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-messaging</artifactId>
+		    <scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+	    <dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-websocket</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+		<!-- Spring Retry -->
+		<dependency>
+		    <groupId>org.springframework.retry</groupId>
+		    <artifactId>spring-retry</artifactId>
+		    <version>${spring-retry.version}</version>
+		    <scope>provided</scope>
+		</dependency>
+		
+		<!-- Spring Ldap -->
+		<dependency>
+		    <groupId>org.springframework.ldap</groupId>
+		    <artifactId>spring-ldap-core</artifactId>
+		    <version>${spring-ldap.version}</version>
+		    <scope>provided</scope>
+		</dependency>
+		
+		<!-- Spring Data -->
+<!-- 		<dependency> -->
+<!-- 		    <groupId>org.springframework.data</groupId> -->
+<!-- 		    <artifactId>spring-data-commons</artifactId> -->
+<!-- 		    <scope>provided</scope> -->
+<!-- 		</dependency> -->
+		<dependency>
+		    <groupId>org.springframework.data</groupId>
+		    <artifactId>spring-data-jdbc</artifactId>
+			<scope>provided</scope>
+		</dependency>					
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <scope>provided</scope>
+        </dependency>
+<!--         <dependency> -->
+<!--             <groupId>org.springframework.data</groupId> -->
+<!--             <artifactId>spring-data-ldap</artifactId> -->
+<!--             <scope>provided</scope> -->
+<!--         </dependency> -->
+<!--         <dependency> -->
+<!-- 		    <groupId>org.springframework.data</groupId> -->
+<!-- 		    <artifactId>spring-data-mongodb</artifactId> -->
+<!-- 		    <scope>provided</scope> -->
+<!-- 		</dependency>		 -->
+<!-- 		<dependency> -->
+<!-- 		    <groupId>org.springframework.data</groupId> -->
+<!-- 		    <artifactId>spring-data-redis</artifactId> -->
+<!-- 		    <scope>provided</scope> -->
+<!-- 		</dependency>	 -->
+
+		<!-- Spring Security -->				
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-crypto</artifactId>
+		    <scope>provided</scope>
+		</dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-ldap</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-messaging</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <scope>provided</scope>
+        </dependency>
+		
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+    		<groupId>org.apache.commons</groupId>
+    		<artifactId>commons-lang3</artifactId>
+    		<version>3.0</version>
+		</dependency>
+		<dependency>
+    		<groupId>io.jsonwebtoken</groupId>
+    		<artifactId>jjwt</artifactId>
+    		<version>0.9.1</version>
+		</dependency>
+		<!-- Spring Security Oauth2 -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.springframework.security</groupId> -->
+<!-- 			<artifactId>spring-security-oauth2-client</artifactId> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.springframework.security</groupId> -->
+<!-- 			<artifactId>spring-security-oauth2-core</artifactId> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.springframework.security</groupId> -->
+<!-- 			<artifactId>spring-security-oauth2-jose</artifactId> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.springframework.security</groupId> -->
+<!-- 			<artifactId>spring-security-oauth2-resource-server</artifactId> -->
+<!-- 		</dependency> -->
+		
+		<!-- Hibernate -->
+  		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-core</artifactId>
+			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.jboss.logging</groupId>
+		    		<artifactId>jboss-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-envers</artifactId>
+			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.jboss.logging</groupId>
+		    		<artifactId>jboss-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+<!-- 		<dependency> -->
+<!-- 		    <groupId>org.hibernate</groupId> -->
+<!-- 		    <artifactId>hibernate-java8</artifactId> -->
+<!-- 		    <scope>provided</scope> -->
+<!-- 		</dependency> -->
+		
+<!--          <dependency> -->
+<!--             <groupId>org.hibernate</groupId> -->
+<!--             <artifactId>hibernate-jpamodelgen</artifactId> -->
+<!--             <scope>provided</scope> -->
+<!--         </dependency> -->
+
+		<!-- Hibernate Cache -->
+		<dependency>
+	        <groupId>org.infinispan</groupId>
+	        <artifactId>infinispan-hibernate-cache-v53</artifactId>
+	        <version>${infinispan.version}</version>
+	        <scope>provided</scope>	       
+	    </dependency>
+
+		<!-- Hibernate Validator -->
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.jboss.logging</groupId>
+		    		<artifactId>jboss-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+<!-- 		<dependency> -->
+<!--             <groupId>org.hibernate.validator</groupId> -->
+<!--             <artifactId>hibernate-validator-annotation-processor</artifactId> -->
+<!--             <scope>provided</scope> -->
+<!--         </dependency> -->
+
+		<!-- jipijapa Hibernate5 -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.jboss.eap</groupId> -->
+<!-- 			<artifactId>jipijapa-hibernate5-3</artifactId> -->
+<!-- 			<version>${version.org.jboss.eap}</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.jboss.eap</groupId> -->
+<!-- 			<artifactId>jipijapa-hibernate5-3-legacy</artifactId> -->
+<!-- 			<version>${version.org.jboss.eap}</version> -->
+<!-- 		</dependency> -->
+
+        <!-- Hibernate Search -->
+<!-- 		<dependency> -->
+<!-- 		    <groupId>org.hibernate</groupId> -->
+<!-- 		    <artifactId>hibernate-search-engine</artifactId> -->
+<!-- 		</dependency>		        -->
+
+<!-- 		<dependency> -->
+<!-- 		    <groupId>org.hibernate</groupId> -->
+<!-- 		    <artifactId>hibernate-search-orm</artifactId> -->
+<!-- 		</dependency> -->
+
+<!-- 		<dependency> -->
+<!-- 		    <groupId>org.hibernate</groupId> -->
+<!-- 		    <artifactId>hibernate-search-serialization-jms</artifactId> -->
+<!-- 		</dependency> -->
+        
+        <!-- Lombok -->
+		<dependency>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		    <version>${lombok.version}</version>
+		    <scope>provided</scope>
+		</dependency>
+
+		<!-- MapStruct -->
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>${mapstruct.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<!-- AspectJ -->    
+    	<dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>${aspectj.version}</version>
+            <scope>provided</scope>
+        </dependency>
+		
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <!-- Jackson -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jdk8</artifactId>
+			<version>${jackson.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+			<version>${jackson.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.jaxrs</groupId>
+			<artifactId>jackson-jaxrs-json-provider</artifactId>
+			<version>${jackson.version}</version>
+			<scope>provided</scope>
+		</dependency>
+        <dependency>
+			<groupId>com.fasterxml.jackson.jaxrs</groupId>
+			<artifactId>jackson-jaxrs-xml-provider</artifactId>
+			<version>${jackson.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+		    <groupId>com.fasterxml.jackson.module</groupId>
+		    <artifactId>jackson-module-parameter-names</artifactId>
+			<version>${jackson.version}</version>
+			<scope>provided</scope>
+		</dependency>
+        
+        <!-- Apache Commons -->
+		<dependency>
+		    <groupId>commons-fileupload</groupId>
+		    <artifactId>commons-fileupload</artifactId>
+		    <version>${commons-fileupload.version}</version>
+		    <scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>${commons-codec.version}</version>
+<!-- 			<scope>provided</scope> -->
+		</dependency>
+        
+        <!-- Apache HTTP Components -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+        	<artifactId>httpcore</artifactId>
+            <version>${apache-httpcore.version}</version>
+            <scope>provided</scope>
+        </dependency>
+<!--         <dependency> -->
+<!-- 	        <groupId>org.apache.httpcomponents</groupId> -->
+<!-- 	        <artifactId>httpcore-nio</artifactId> -->
+<!-- 	        <scope>provided</scope> -->
+<!-- 	    </dependency> -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+        	<artifactId>httpclient</artifactId>
+            <version>${apache-httpclient.version}</version>
+            <scope>provided</scope>
+            <exclusions>
+            	<exclusion>
+            		<groupId>commons-logging</groupId>
+    				<artifactId>commons-logging</artifactId>
+            	</exclusion>
+            </exclusions>
+        </dependency>
+        
+        <!-- slf4j -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+			<scope>provided</scope>
+		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.slf4j</groupId> -->
+<!-- 			<artifactId>slf4j-ext</artifactId> -->
+<!-- 			<version>${slf4j.version}</version> -->
+<!-- 			<scope>provided</scope> -->
+<!-- 		</dependency> -->
+    
+    	<!-- Junit Jupiter -->
+		<dependency>
+		    <groupId>org.junit.jupiter</groupId>
+		    <artifactId>junit-jupiter-engine</artifactId>
+		    <version>${junit-jupiter.version}</version>
+		    <scope>test</scope>
+		</dependency>		 
+		
+		<dependency>
+		    <groupId>org.mockito</groupId>
+		    <artifactId>mockito-junit-jupiter</artifactId>
+		    <version>${mockito.version}</version>
+		    <scope>test</scope>
+		</dependency>				   	
+    
+    </dependencies>
+  
+  	<!-- Repositorios -->
+	<repositories>
+		<repository>
+            <id>springsource-repo</id>
+            <name>SpringSource Repository</name>
+            <url>http://repo.springsource.org/release</url>
+            <releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+        </repository>
+
+<!--         <repository> -->
+<!--             <id>jboss-ga-repository</id> -->
+<!--             <name>jboss-ga-repository</name> -->
+<!--             <url>http://maven.repository.redhat.com/techpreview/all</url> -->
+<!--         </repository> -->
+
+		<repository>
+			<id>jboss-enterprise-maven-repository</id>
+			<url>https://maven.repository.redhat.com/ga/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+  
+  	<pluginRepositories>
+		<pluginRepository>
+			<id>jboss-enterprise-maven-repository</id>
+			<url>https://maven.repository.redhat.com/ga/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+    </pluginRepositories>
+  
+  	<build>
+    	<finalName>ReclutaSEyCAE</finalName>
+        <plugins>
+            <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${plugin-compiler.version}</version>
+				<configuration>
+					<release>${maven.compiler.release}</release>				
+					<compilerArgument>-Xlint:all</compilerArgument>
+					<showWarnings>true</showWarnings>
+					<showDeprecation>true</showDeprecation>
+					<annotationProcessorPaths>
+						<path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+	                    <path>
+	                        <groupId>org.mapstruct</groupId>
+	                        <artifactId>mapstruct-processor</artifactId>
+	                        <version>${mapstruct.version}</version>
+	                    </path>
+	                    <!-- other annotation processors -->
+	                </annotationProcessorPaths>					
+				</configuration>
+			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${plugin-war.version}</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
+                    <archive>
+                        <manifestEntries>
+                            <Logging-Profile>ReclutaSEyCAE</Logging-Profile>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${plugin-surefire.version}</version>
+                <dependencies>
+			        <dependency>
+			             <groupId>org.junit.platform</groupId>
+			             <artifactId>junit-platform-surefire-provider</artifactId>
+			             <version>1.3.2</version>
+			         </dependency>
+			     </dependencies>	
+                <configuration>
+<!--                     <skipTests>true</skipTests> -->
+                </configuration>
+            </plugin>
+                       
+        </plugins>
+    </build>
+
+</project>
