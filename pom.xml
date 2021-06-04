@@ -44,7 +44,7 @@
 
 		<!-- Apache Http -->
 		<apache-httpcore.version>4.4.4.redhat-2</apache-httpcore.version>
-        <apache-httpclient.version>4.5.2.redhat-2</apache-httpclient.version>
+        <apache-httpclient.version>4.5.13</apache-httpclient.version>
         
         <commons-fileupload.version>1.3.3</commons-fileupload.version>
 
